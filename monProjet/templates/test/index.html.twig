@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %} 
+{% block body %} 
+    {# {{ dump(products) }} #}
+    <table class="table table-light table-hover">
+<thead>
+
+    <tr>
+        <th>Id Du produit</th>
+        <th>Nom</th>
+        <th>Id fournisseur</th>
+        <th>Id categorie</th>
+        <th>Quantite par unité</th>
+        <th>Prix Unitaire</th>
+        <th>Unites en stock</th>
+        <th>Unites en commande</th>
+        <th>Niveau d'alerte</th>
+        <th>Discontinued</th>
+    </tr>
+</thead>
+<tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{product.id}}</td>
+                <td>{{product.name}}</td>
+                <td>{{product.supplierID}}</td>
+                <td>{{product.categoryID}}</td>
+                <td>{{product.quantityPerUnit}}</td>
+                <td>{{product.unitPrice}}</td>
+                <td>{{product.unitsInStock}}</td>
+                <td>{{product.unitsOnOrder}}</td>
+                <td>{{product.reorderLevel}}</td>
+                <td>{{product.discontinued ? 1 : 0 }}</td>
+            </tr>
+        {% endfor %}
+</tbody>
+</table>
+{% endblock %}
