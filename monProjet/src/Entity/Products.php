@@ -25,10 +25,7 @@ class Products
     */
     private $name;
 
-    /** 
-    * @ORM\Column(name="SupplierID", type="integer", options={"default" : null})
-    */
-    private $supplierID;
+    
 
     /** 
     * @ORM\Column(name="CategoryID", type="integer", options={"default" : null})
@@ -104,16 +101,6 @@ class Products
         return $this;
     }
 
-    public function getSupplierID(): ?int
-    {
-        return $this->supplierID;
-    }
-
-    public function setSupplierID(int $supplierID): self
-    {
-        $this->supplierID = $supplierID;
-        return $this;
-    }
 
     public function getCategoryID(): ?int
     {
