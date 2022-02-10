@@ -18,6 +18,7 @@
                 <th>ReorderLevel</th>
                 <th>Discontinued</th>
                 <th>Suppliers</th>
+                <th>Photo</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -34,6 +35,7 @@
                 <td>{{ product.ReorderLevel }}</td>
                 <td>{{ product.Discontinued ? 'Yes' : 'No' }}</td>
                 <td>{{ product.Supplier }}</td>
+                <td><img class="img-fluid" src="{{ asset('images/produit/' ~ product.Picture) }}"></img></td>
                 <td>
                     <a href="{{ path('products_show', {'id': product.id}) }}">show</a>
                     <a href="{{ path('products_edit', {'id': product.id}) }}">edit</a>

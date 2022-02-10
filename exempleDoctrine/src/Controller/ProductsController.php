@@ -6,10 +6,11 @@ use App\Entity\Products;
 use App\Form\ProductsType;
 use App\Repository\ProductsRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
  * @Route("/products")
@@ -38,7 +39,7 @@ class ProductsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($product);
             $entityManager->flush();
-
+            $this->addFlash( 'success', 'Produit ajouté avec succès !!' );
             return $this->redirectToRoute('products_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -69,11 +70,26 @@ class ProductsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $pictureFile = $form['picture2']->getData();
+            // vérification s'il y a un upload photo 
+            if ($pictureFile) { 
+                // renommage du fichier 
+                // nom du fichier + extension 
+                $newPicture = $product->getId() . '.' . $pictureFile->guessExtension(); 
+                // assignation de la valeur à la propriété picture à l'aide du setter
+                $product->setPicture($newPicture);
+                try {
+                // déplacement du fichier vers le dossier de destination sur le serveur
+                $pictureFile->move( $this->getParameter('photo_directory'), $newPicture );
+                } 
+                catch (FileException $e)
+                { 
+                    // gestion de l'erreur si le déplacement ne s'est pas effectué
+                }
+            }
             $entityManager->flush();
-
             return $this->redirectToRoute('products_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->render('products/edit.html.twig', [
             'product' => $product,
             'form' => $form->createView(),
