@@ -35,7 +35,13 @@
                 <td>{{ product.ReorderLevel }}</td>
                 <td>{{ product.Discontinued ? 'Yes' : 'No' }}</td>
                 <td>{{ product.Supplier }}</td>
-                <td><img class="img-fluid" src="{{ asset('images/produit/' ~ product.Picture) }}"></img></td>
+                <td>
+                    {% if product.Picture %}
+                        <img class="img-fluid" src="{{ asset('images/produit/' ~ product.Picture) }}"></img>
+                    {% else %}
+                        Pas de photo
+                    {% endif %}
+                </td>
                 <td>
                     <a href="{{ path('products_show', {'id': product.id}) }}">show</a>
                     <a href="{{ path('products_edit', {'id': product.id}) }}">edit</a>
